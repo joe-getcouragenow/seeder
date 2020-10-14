@@ -1,17 +1,65 @@
 package git
 
+import (
+	"fmt"
+
+	"github.com/magefile/mage/sh"
+)
+
+// Urls hardcoded for now
+var git_server_name = "github"
+var git_org_upstream_name = "getcouragenow"
+
+// git branches and remote name defaults
+var branch_name = "master"
+var remote_origin_name = "origin"
+var remote_upstream_name = "upstream"
+
 // List returns the gits available.
 func List() string {
-	return "List called. Here is what is available"
 
-	// do a Print
+	fmt.Println("-- Defaults --")
+	fmt.Printf("branch: %s", branch_name)
+	fmt.Println("")
 
-	// do a status
+	fmt.Println("-- Git status --")
+	err := sh.RunV("git", "status")
+	if err != nil {
+		return err.Error()
+	}
+	fmt.Println("")
+
+	// Remotes
+	fmt.Println("-- Git Remote: origin --")
+	err = sh.RunV("git", "config", "--get", "remote.origin.url")
+	if err != nil {
+		return err.Error()
+	}
+	fmt.Println("")
+
+	fmt.Println("-- Git Remote: upstream --")
+	err = sh.RunV("git", "config", "--get", "remote.upstream.url")
+	if err != nil {
+		return err.Error()
+	}
+	fmt.Println("")
+
+	return "ok"
 }
 
 // Setup configures your git for Origin and Upstream
 func Setup() string {
-	return "Setup called. Here is the result."
+
+	// "git remote add upstream git@$(GITR_SERVER)-$(GITR_USER):$(GITR_ORG_UPSTREAM)/$(GITR_REPO_NAME)
+
+	fmt.Println("-- Git Remote: upstream --")
+	err := sh.RunV("git", "remote", "add", remote_upstream_name, "xxx")
+	if err != nil {
+		return err.Error()
+	}
+	fmt.Println("")
+
+	return "Setup called. ok."
 }
 
 // Catchup pulls code from Upstream.

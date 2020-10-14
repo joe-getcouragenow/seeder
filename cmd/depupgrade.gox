@@ -1,0 +1,35 @@
+package cmd
+
+import (
+	"fmt"
+
+	"github.com/spf13/cobra"
+
+	"github.com/getcouragenow/seeder/internal/build"
+	"github.com/getcouragenow/seeder/internal/enginecache"
+	"github.com/getcouragenow/seeder/internal/log"
+	"github.com/getcouragenow/seeder/internal/versioncheck"
+
+	pkg "github.com/getcouragenow/seeder/pkg/dep"
+)
+
+// listCmd represents the list command
+var depUpgradeCmd = &cobra.Command{
+	Use:   "upgrade",
+	Short: "Upgrade all deps available",
+	Long:  " ",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("dep upgrade called")
+
+		// list
+		result := pkg.Upgrade()
+		fmt.Println(result)
+	},
+}
+
+func init() {
+	depUpgradeCmd.Flags().StringVarP(&buildOrRunCachePath, "cache-path", "", enginecache.DefaultCachePath(), "The path that hover uses to cache dependencies such as the Flutter engine .so/.dll (defaults to the standard user cache directory)")
+	depUpgradeCmd.Flags().StringVarP(&buildOrRunGoFlutterBranch, "branch", "b", "", "The 'go-flutter' version to use. (@master or @v0.20.0 for example)")
+
+	depCmd.AddCommand(depUpgradeCmd)
+}

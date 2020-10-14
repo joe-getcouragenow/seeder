@@ -20,6 +20,13 @@ Each modules needs a seed.yaml and a manifest.yaml
 - seed.yaml defines all modules you need
 - manifest.yaml defines all resources you use, so that the seeder can inspect and get them
 
+## Dependencies
+
+sys-core cli, in order to carry out ops and migrations
+- ops involved upgrades, backups, etc
+- migrations involves at Dev time, doing a DB dumb
+    - however you can also use the previous migration sql.dumb file
+
 ## functions
 
 deps
